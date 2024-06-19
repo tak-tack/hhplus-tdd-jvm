@@ -1,13 +1,14 @@
 package io.hhplus.tdd.database;
 
 // 포인트 엔티티겸 도메인
-import io.hhplus.tdd.point.PointHistory;
+import io.hhplus.tdd.point.entity.PointHistory;
 import io.hhplus.tdd.point.TransactionType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 해당 Table 클래스는 변경하지 않고 공개된 API 만을 사용해 데이터를 제어합니다.
@@ -25,6 +26,7 @@ public class PointHistoryTable {
     }
 
     public List<PointHistory> selectAllByUserId(long userId) {
+        //filter 파라미터에 있는 함수가 return 하는 boolean타입(treu, false)값에 따라 해당 값을 리스트에 포함한다.
         return table.stream().filter(pointHistory -> pointHistory.userId() == userId).toList();
     }
 

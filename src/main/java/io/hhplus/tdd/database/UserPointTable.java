@@ -1,6 +1,6 @@
 package io.hhplus.tdd.database;
 
-import io.hhplus.tdd.point.UserPoint;
+import io.hhplus.tdd.point.entity.UserPoint;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -17,7 +17,8 @@ public class UserPointTable {
 
     public UserPoint selectById(Long id) {
         throttle(200);
-        return table.getOrDefault(id, UserPoint.empty(id)); // 없을수는있지만 포인트는 없다.
+        return table.getOrDefault(id, UserPoint.empty(id));
+        // gerOrDefault(찾는 key 값, 찾는 key 값이 없거나 null 일때 반환
     }
 
     public UserPoint insertOrUpdate(long id, long amount) {

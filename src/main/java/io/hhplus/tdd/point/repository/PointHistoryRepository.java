@@ -1,16 +1,12 @@
-package io.hhplus.tdd.point.service;
-
+package io.hhplus.tdd.point.repository;
 import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.domain.PointHistoryDomain;
 import io.hhplus.tdd.point.domain.UserPointDomain;
 
 import java.util.List;
 
-public interface PointService {
-    UserPointDomain selectById(Long Id);
-    UserPointDomain chargePoint(long Id, long amount);
-    UserPointDomain usePoint(long Id, long amount);
+public interface PointHistoryRepository {
     List<PointHistoryDomain> selectAllByUserId(long userId);
 
-
+    PointHistoryDomain save(long userId, long amount, TransactionType type, long updateMillis);
 }
