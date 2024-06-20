@@ -63,6 +63,6 @@ class PointServiceImplTest {
     void selectAllByUserId() {
         // given
         // when
-        // then
+        // the
     }
 }
