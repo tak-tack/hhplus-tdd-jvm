@@ -34,39 +34,34 @@ class PointControllerTest {
     @Autowired
     private PointHistoryRepository pointHistoryRepository;
 
-    private final long userId = 2;
+    private final long id = 1;
+    private final long userId = 1;
     private final long amount = 20;
     private final long point = 50;
 
     @BeforeEach
     @DisplayName("BeforeEach")
     void setUp() {
-        userPointRepository.chargePoint(userId, point);
-        for(int i=1; i<4; i++) {
-            pointHistoryRepository.save(i, i*10, TransactionType.CHARGE, System.currentTimeMillis());
-        }
-        pointHistoryRepository.save(userId, 20, TransactionType.CHARGE, System.currentTimeMillis());
-        pointHistoryRepository.save(userId, 30, TransactionType.CHARGE, System.currentTimeMillis());
+        userPointRepository.update(id, point,TransactionType.CHARGE);
+        pointHistoryRepository.save(userId, 10, TransactionType.CHARGE, System.currentTimeMillis());
+        pointHistoryRepository.save(userId, 30, TransactionType.USE, System.currentTimeMillis());
     }
 
     @Test
     @Description("User Id로 포인트 조회 API 테스트")
     @DisplayName("포인트 조회")
     void getPoint() throws Exception {
-        mockMvc.perform(get("/point/{Id}",userId)  // get :  conntroller http메서드
+        mockMvc.perform(get("/point/{Id}",id)  // get :  conntroller http메서드
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userId))
+                .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.point").value(point))
                 .andExpect(jsonPath("$.updateMillis").value(not(0)));
-
-
-
     }
 
     @Test
-    @Description("User Id로 포인트 내역 API 테스트")
+    @Description("User Id로 포인트 충전, 사용 내역 API 테스트")
     @DisplayName("포인트 내역 조회")
     void getPointHistory() throws Exception {
         mockMvc.perform(get("/point/{Id}/histories",userId)
@@ -78,17 +73,17 @@ class PointControllerTest {
                 //.andExpect(jsonPath("$.size()").value()); List 사이즈
     }
 
+    // id값 null 에 대한
     @Test
     @Description("User Id와 amount 로 충전, 입력 API 테스트")
     @DisplayName("포인트 충전")
     void pointCharge() throws Exception {
-        mockMvc.perform(patch("/point/{Id}/charge",userId)
+        mockMvc.perform(patch("/point/{Id}/charge",id)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(amount)))
-
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userId))
+                .andExpect(status().isOk()) //
+                .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.point").value(point + amount));
 
     }
@@ -97,12 +92,12 @@ class PointControllerTest {
     @Description("User Id와 amount 로 사용, 입력 API 테스트")
     @DisplayName("포인트 사용")
     void pointUse() throws Exception{
-        mockMvc.perform(patch("/point/{Id}/use",userId)
+        mockMvc.perform(patch("/point/{Id}/use",id)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(amount)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(userId))
+                .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.point").value(point - amount));
 
     }
