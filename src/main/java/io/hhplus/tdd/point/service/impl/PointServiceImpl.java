@@ -19,10 +19,6 @@ import org.slf4j.LoggerFactory;
 public class PointServiceImpl implements PointService {
     private final UserPointRepository userPointRepository;
     private final PointHistoryRepository pointHistoryRepository;
-
-    private TransactionType transactionType;
-
-
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
 
     //조회

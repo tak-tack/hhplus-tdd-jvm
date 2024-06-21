@@ -18,6 +18,4 @@ public record PointHistory(
         return pointHistoryDomain;
     }
 
-
-
 }

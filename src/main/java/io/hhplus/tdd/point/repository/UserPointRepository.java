@@ -8,6 +8,4 @@ public interface UserPointRepository {
 
     UserPointDomain update(long Id, long amount, TransactionType type);
 
-
-
 }

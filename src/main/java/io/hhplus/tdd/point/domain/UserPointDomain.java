@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import lombok.Getter;
 import lombok.Setter;
 
+//Domain
 @Getter
 @Setter
 public class UserPointDomain {

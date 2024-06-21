@@ -22,9 +22,8 @@ public class PointHistoryRepositoryImpl implements PointHistoryRepository {
     }
 
     @Override
-    public PointHistoryDomain save(long userId, long amount, TransactionType type, long updateMillis){
-        PointHistory pointHistory = pointHistoryTable.insert(userId, amount, type, updateMillis);
-        return pointHistory.toDomain();
+    public void save(long userId, long amount, TransactionType type, long updateMillis){
+        pointHistoryTable.insert(userId, amount, type, updateMillis);
     }
 
 

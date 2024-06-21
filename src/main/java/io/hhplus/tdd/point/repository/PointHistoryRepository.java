@@ -5,9 +5,10 @@ import io.hhplus.tdd.point.domain.PointHistoryDomain;
 import java.util.List;
 
 public interface PointHistoryRepository {
+
     List<PointHistoryDomain> selectAllByUserId(long id);
 
-    PointHistoryDomain save(long userId, long amount, TransactionType type, long updateMillis);
+    void save(long userId, long amount, TransactionType type, long updateMillis);
 
 
 }

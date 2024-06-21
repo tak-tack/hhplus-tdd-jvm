@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@SpringBootTest // Spring 통합테스트
+@SpringBootTest // Spring 통합테스트 선언
 @AutoConfigureMockMvc
 class PointControllerTest {
 
@@ -42,11 +42,17 @@ class PointControllerTest {
     @BeforeEach
     @DisplayName("BeforeEach")
     void setUp() {
-        userPointRepository.update(id, point,TransactionType.CHARGE);
+        // 포인트 충전
+        userPointRepository.update(id, 100 , TransactionType.CHARGE);
+        // 포인트 사용
+        userPointRepository.update(id, 50 , TransactionType.USE);
+        // 포인트 충전 기록
         pointHistoryRepository.save(userId, 10, TransactionType.CHARGE, System.currentTimeMillis());
+        // 포인트 사용 기록
         pointHistoryRepository.save(userId, 30, TransactionType.USE, System.currentTimeMillis());
     }
 
+    // Controller - service - Repository 통합 테스트
     @Test
     @Description("User Id로 포인트 조회 API 테스트")
     @DisplayName("포인트 조회")
@@ -70,10 +76,9 @@ class PointControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].userId").value(userId))
                 .andDo(print());
-                //.andExpect(jsonPath("$.size()").value()); List 사이즈
+
     }
 
-    // id값 null 에 대한
     @Test
     @Description("User Id와 amount 로 충전, 입력 API 테스트")
     @DisplayName("포인트 충전")
