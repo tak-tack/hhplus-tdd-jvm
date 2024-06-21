@@ -8,6 +8,9 @@ import io.hhplus.tdd.point.repository.UserPointRepository;
 import io.hhplus.tdd.point.service.PointService;
 import io.hhplus.tdd.point.TransactionType;
 
+//동시성 제어 컨트롤
+import io.hhplus.tdd.ConcurrencyController;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -19,6 +22,7 @@ import org.slf4j.LoggerFactory;
 public class PointServiceImpl implements PointService {
     private final UserPointRepository userPointRepository;
     private final PointHistoryRepository pointHistoryRepository;
+    private final ConcurrencyController concurrencyController;
     private static final Logger log = LoggerFactory.getLogger(PointController.class);
 
     //조회
@@ -34,8 +38,12 @@ public class PointServiceImpl implements PointService {
         {
             throw new RuntimeException();
         }
+        if(concurrencyController.waitController(Id)){
 
+        };
+        concurrencyController.startController(Id); // 기동 시작
         long totAmount = amount+userPointRepository.selectById(Id).getPoint();
+        concurrencyController.endController(Id); // 기동 종료
         return userPointRepository.update(Id,totAmount, TransactionType.CHARGE); // 포인트 충전을 위한 연산
     }
 
@@ -45,7 +53,9 @@ public class PointServiceImpl implements PointService {
         if (amount == 0 || amount == -1) {
             throw new RuntimeException();
         }
+        concurrencyController.startController(Id); // 기동 시작
         long totAmount = userPointRepository.selectById(Id).getPoint() - amount;
+        concurrencyController.endController(Id); // 기동 종료
         return userPointRepository.update(Id, totAmount, TransactionType.USE); // 포인트 사용을 위한 연산
     }
 
