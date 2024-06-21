@@ -1,12 +1,15 @@
 package io.hhplus.tdd.point.service;
 
-import io.hhplus.tdd.point.UserPoint;
-import org.springframework.stereotype.Service;
+import io.hhplus.tdd.point.domain.PointHistoryDomain;
+import io.hhplus.tdd.point.domain.UserPointDomain;
 
 import java.util.List;
 
 public interface PointService {
-    List<UserPoint> selectById(Long Id);
+    UserPointDomain selectById(Long Id);
+    UserPointDomain chargePoint(long Id, long amount);
+    UserPointDomain usePoint(long Id, long amount);
+    List<PointHistoryDomain> selectAllByUserId(Long Id);
 
 
 }

@@ -1,7 +1,7 @@
 package io.hhplus.tdd.database;
 
 // 포인트 엔티티겸 도메인
-import io.hhplus.tdd.point.PointHistory;
+import io.hhplus.tdd.point.entity.PointHistory;
 import io.hhplus.tdd.point.TransactionType;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +25,7 @@ public class PointHistoryTable {
     }
 
     public List<PointHistory> selectAllByUserId(long userId) {
+
         return table.stream().filter(pointHistory -> pointHistory.userId() == userId).toList();
     }
 

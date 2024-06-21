@@ -6,7 +6,6 @@ package io.hhplus.tdd.point;
  * - CHARGE : 충전
  * - USE : 사용
  */
-// Entity
 public enum TransactionType {
     CHARGE, USE
 }
