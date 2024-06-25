@@ -1,5 +1,4 @@
 package io.hhplus.tdd.point.domain;
-import com.fasterxml.jackson.core.JsonToken;
 import lombok.Getter;
 import lombok.Setter;
 

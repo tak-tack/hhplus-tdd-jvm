@@ -23,7 +23,6 @@ public class PointServiceImpl implements PointService {
     private final UserPointRepository userPointRepository;
     private final PointHistoryRepository pointHistoryRepository;
     private final ConcurrencyController concurrencyController;
-    private static final Logger log = LoggerFactory.getLogger(PointController.class);
 
     //조회
     @Override
